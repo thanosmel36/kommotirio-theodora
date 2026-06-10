@@ -118,7 +118,7 @@ with st.form("booking_form"):
 
     if submit:
 
-    if name and phone and time:
+        if name and phone and time:
 
          start_dt = datetime.strptime(time, "%H:%M")
         
