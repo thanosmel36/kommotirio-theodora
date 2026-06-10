@@ -154,7 +154,7 @@ with col1:
             💶 {b[5]}€
         </div>
         """, unsafe_allow_html=True)
-        
+is_admin=False        
 if is_admin:
     st.metric("💰 Έσοδα ημέρας", f"{total_income} €")
 
