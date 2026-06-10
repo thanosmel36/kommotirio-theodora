@@ -111,58 +111,35 @@ time = st.selectbox("🕒 Διαθέσιμη ώρα", slots if slots else ["Κα
 
 # ---------------- SAVE ----------------
 with st.form("booking_form"):
-
 name = st.text_input("Όνομα")
-
 phone = st.text_input("Τηλέφωνο")
-
-
 
 submit = st.form_submit_button("✔ Κλείσιμο Ραντεβού")
 
-
-
 if submit:
 
-    if name and phone and time:
+     if name and phone and time:
 
+         start_dt = datetime.strptime(time, "%H:%M")
+        
+         end_dt = start_dt + timedelta(minutes=duration)
 
-
-        start_dt = datetime.strptime(time, "%H:%M")
-
-        end_dt = start_dt + timedelta(minutes=duration)
-
-
-
-        c.execute(
-
+         c.execute(
             "SELECT * FROM appointments WHERE phone=? AND date=? AND start_time=?",
-
             (phone, str(selected_date), time)
+            )
+            exists = c.fetchone()
 
-        )
-
-        exists = c.fetchone()
-
-
-
-        if exists:
-
-            st.error("Υπάρχει ήδη αυτό το ραντεβού")
-
-        else:
-
-            c.execute(
-
+            if exists:
+                st.error("Υπάρχει ήδη αυτό το ραντεβού")
+            else:
+                c.execute(
                 "INSERT INTO appointments (name, phone, service, duration, price, date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 
                 (name, phone, service, duration, price, str(selected_date), time, end_dt.strftime("%H:%M"))
-
-            )
-
-            conn.commit()
-
-            st.success("Το ραντεβού καταχωρήθηκε")
+                 )
+                 conn.commit()
+                st.success("Το ραντεβού καταχωρήθηκε")
 
         # update customer
         c.execute("SELECT * FROM customers WHERE phone=?", (phone,))
