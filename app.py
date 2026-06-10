@@ -124,11 +124,11 @@ with st.form("booking_form"):
         
          end_dt = start_dt + timedelta(minutes=duration)
 
-         c.execute(
+        c.execute(
             "SELECT * FROM appointments WHERE phone=? AND date=? AND start_time=?",
             (phone, str(selected_date), time)
             )
-            exists = c.fetchone()
+        exists = c.fetchone()
 
             if exists:
                 st.error("Υπάρχει ήδη αυτό το ραντεβού")
