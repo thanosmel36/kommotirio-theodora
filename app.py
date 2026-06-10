@@ -111,14 +111,14 @@ time = st.selectbox("🕒 Διαθέσιμη ώρα", slots if slots else ["Κα
 
 # ---------------- SAVE ----------------
 with st.form("booking_form"):
-name = st.text_input("Όνομα")
-phone = st.text_input("Τηλέφωνο")
+    name = st.text_input("Όνομα")
+    phone = st.text_input("Τηλέφωνο")
 
-submit = st.form_submit_button("✔ Κλείσιμο Ραντεβού")
+    submit = st.form_submit_button("✔ Κλείσιμο Ραντεβού")
 
-if submit:
+    if submit:
 
-     if name and phone and time:
+    if name and phone and time:
 
          start_dt = datetime.strptime(time, "%H:%M")
         
