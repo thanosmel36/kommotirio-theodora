@@ -57,6 +57,9 @@ services = {
 
 st.title("💇 Κομμώσεις Θεοδώρα")
 
+st.write("  2324093752")
+st.write("  Παλαιοκωμη Σερρων")
+
 # ---------------- INPUT ----------------
 col1, col2, col3 = st.columns(3)
 
@@ -151,7 +154,8 @@ with col1:
             💶 {b[5]}€
         </div>
         """, unsafe_allow_html=True)
-
+        
+if is_admin:
     st.metric("💰 Έσοδα ημέρας", f"{total_income} €")
 
 with col2:
