@@ -133,13 +133,13 @@ with st.form("booking_form"):
         if exists:
                 st.error("Υπάρχει ήδη αυτό το ραντεβού")
         else:
-                c.execute(
+            c.execute(
                 "INSERT INTO appointments (name, phone, service, duration, price, date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 
                 (name, phone, service, duration, price, str(selected_date), time, end_dt.strftime("%H:%M"))
                  )
-                 conn.commit()
-                st.success("Το ραντεβού καταχωρήθηκε")
+        conn.commit()
+        st.success("Το ραντεβού καταχωρήθηκε")
 
         # update customer
         c.execute("SELECT * FROM customers WHERE phone=?", (phone,))
