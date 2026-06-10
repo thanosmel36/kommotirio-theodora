@@ -130,9 +130,9 @@ with st.form("booking_form"):
             )
         exists = c.fetchone()
 
-            if exists:
+        if exists:
                 st.error("Υπάρχει ήδη αυτό το ραντεβού")
-            else:
+        else:
                 c.execute(
                 "INSERT INTO appointments (name, phone, service, duration, price, date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 
