@@ -110,18 +110,59 @@ for s,e in work:
 time = st.selectbox("🕒 Διαθέσιμη ώρα", slots if slots else ["Καμία διαθεσιμότητα"])
 
 # ---------------- SAVE ----------------
-if st.button("✔ Κλείσιμο Ραντεβού"):
+with st.form("booking_form"):
+
+name = st.text_input("Όνομα")
+
+phone = st.text_input("Τηλέφωνο")
+
+
+
+submit = st.form_submit_button("✔ Κλείσιμο Ραντεβού")
+
+
+
+if submit:
+
     if name and phone and time:
 
+
+
         start_dt = datetime.strptime(time, "%H:%M")
+
         end_dt = start_dt + timedelta(minutes=duration)
 
-        # save appointment
-        c.execute("""
-        INSERT INTO appointments
-        (name, phone, service, duration, price, date, start_time, end_time)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (name, phone, service, duration, price, str(selected_date), time, end_dt.strftime("%H:%M")))
+
+
+        c.execute(
+
+            "SELECT * FROM appointments WHERE phone=? AND date=? AND start_time=?",
+
+            (phone, str(selected_date), time)
+
+        )
+
+        exists = c.fetchone()
+
+
+
+        if exists:
+
+            st.error("Υπάρχει ήδη αυτό το ραντεβού")
+
+        else:
+
+            c.execute(
+
+                "INSERT INTO appointments (name, phone, service, duration, price, date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+
+                (name, phone, service, duration, price, str(selected_date), time, end_dt.strftime("%H:%M"))
+
+            )
+
+            conn.commit()
+
+            st.success("Το ραντεβού καταχωρήθηκε")
 
         # update customer
         c.execute("SELECT * FROM customers WHERE phone=?", (phone,))
